@@ -1,0 +1,92 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color: #213547;
+  background-color: #ffffff;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 3rem;
+  border-radius: 13px;
+  background-color: #eee;
+}
+
+form label {
+  margin-right: 1rem;
+  color: royalblue;
+  display: inline-block;
+  width: 8rem;
+  text-align: right;
+}
+
+form input {
+  border: none;
+  outline: 1px solid hsl(219, 40%, 50%);
+  border-radius: 3px;
+  padding: 0.3rem;
+  font-size: 1rem;
+}
+form input:focus,
+form input:focus-visible {
+  outline: 4px auto royalblue;
+}
+form input:invalid {
+  outline: 4px auto hsl(10, 40%, 50%);
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  transition: border-color 0.25s;
+  margin: 0 0.5rem;
+}
+button:hover {
+  border-color: royalblue;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto royalblue;
+}
+
+button[type='submit'] {
+  background-color: royalblue;
+  color: #eee;
+}
+button:hover[type='submit'] {
+  border-color: hsl(219, 100%, 50%);
+}
+button:focus[type='submit'],
+button:focus-visible[type='submit'] {
+  outline: 4px auto hsl(219, 100%, 50%);
+}

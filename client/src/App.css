@@ -1,0 +1,68 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.snackbar-container {
+  display: flex;
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  z-index: 10;
+  border-radius: 4px;
+  min-width: 344px;
+  box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2),
+    0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+  animation: 3000ms ease-out forwards slide-up;
+}
+
+.success {
+  background-color: hsl(130, 50%, 45%);
+}
+
+.success.snackbar-message {
+  color: hsl(130, 10%, 10%);
+}
+
+.fail {
+  background-color: hsl(1, 50%, 55%);
+}
+
+.fail.snackbar-message {
+  color: hsl(1, 10%, 10%);
+}
+
+.snackbar-message {
+  display: inline-block;
+  padding: 1rem;
+  line-height: 1.5rem;
+  font-size: 1.2rem;
+  width: 100%;
+  margin: 0;
+}
+
+.snackbar-close {
+  display: inline-block;
+  font-size: 1rem;
+  padding: 0 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+@keyframes slide-up {
+  0%,
+  100% {
+    opacity: 0;
+    transform: translateY(3rem);
+  }
+  10%,
+  90% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
