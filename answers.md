@@ -14,7 +14,7 @@
 
 - **Refactoring, Structure, and Code Style.** I decided to bring the code to a more consistent state. I used named imports everywhere, arrow functions, and moved potentially reusable functions, constants, and components into separate files. I separated the display from the logic a bit by moving useGetFormData into a separate hook where all the logic resides, while the App component is only responsible for rendering. I also extracted reusable components such as AutocompleteInput, Checkbox, Tooltip, ScreenLoader, and InlineLoader. I understand that for an application with a single form, this might be excessive, but I aimed to show that the structure is scalable and, in doing so, provided a slight structure to the application.
 
-Now I will explain what else I'd improve:
+**Now I will explain what else I'd improve:**
 
 - **Validation-1.** I might add a special error if the value doesn't match what is in the options. Currently, this error exists and uses a pattern attribute, but I'd add custom error messaging for it.
 
