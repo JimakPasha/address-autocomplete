@@ -1,0 +1,49 @@
+.tooltip-container {
+  position: relative;
+  display: flex;
+  align-items: center;  
+  white-space: wrap;
+}
+
+.question-mark-container {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+
+  background-color: royalblue;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 8px;
+  cursor: pointer;
+}
+
+.question-mark {
+  font-size: 10px;
+  color: #fff;
+}
+
+.tooltip-text {
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+
+  width: 350px;
+  margin-left: -60px;
+  padding: 8px;
+
+  font-size: 12px;
+  visibility: hidden;
+  background-color: #333;
+  color: #fff;
+  border-radius: 6px;
+  text-align: left;
+  opacity: 0;
+
+  transition: opacity 0.3s;
+}
+
+.tooltip-container:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}

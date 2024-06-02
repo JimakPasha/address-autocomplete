@@ -1,0 +1,72 @@
+.input-container {
+  position: relative;
+}
+  
+.input-container:hover::after {
+  content: "▼";
+
+  position: absolute;
+  top: 50%;
+  right: 5px;
+  transform: translateY(-50%);
+  pointer-events: none;
+  
+  color: #000;
+}
+
+.invalid {
+  outline: 4px auto hsl(10, 40%, 50%);
+}
+
+.options-container {
+  position: relative;
+}
+
+.option-list {
+  position: absolute;
+  top: 10px;
+  left: 45%;
+  z-index: 1000;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  padding: 4px 0;
+  max-height: 250px;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  border-radius: 3px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 
+  0 6px 20px rgba(0, 0, 0, 0.1);
+  list-style: none;
+}
+
+.option {
+  width: 100%;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.option:hover {
+  background-color: #f0f0f0;
+}
+
+.triangle {
+  position: absolute;
+  top: 2px;
+  right: 48%;
+
+  width: 0;
+  height: 0;
+
+  border-left: 9px solid transparent;
+  border-right: 9px solid transparent;
+  border-bottom: 9px solid #fff;
+}
+
+.loader {
+  position: fixed;
+}
