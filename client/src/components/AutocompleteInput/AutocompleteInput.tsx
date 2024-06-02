@@ -1,4 +1,5 @@
 import React, { FC, ChangeEvent } from "react";
+import { InlineLoader } from "../InlineLoader";
 import { FieldsForm } from "../../constants";
 import "./AutocompleteInput.css";
 
@@ -10,6 +11,7 @@ interface AutocompleteInputProps {
   pattern: string;
   isRenderOptions: boolean;
   options: string[];
+  isLoadingOptions: boolean;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   onFocus: (name: FieldsForm) => void;
   onBlur: (name: FieldsForm) => void;
@@ -24,6 +26,7 @@ export const AutocompleteInput: FC<AutocompleteInputProps> = ({
   pattern,
   isRenderOptions,
   options,
+  isLoadingOptions,
   onChange,
   onFocus,
   onBlur,
@@ -45,6 +48,7 @@ export const AutocompleteInput: FC<AutocompleteInputProps> = ({
     {isRenderOptions && (
       <div className="options-container">
         <ul className="option-list">
+          <div className="loader">{isLoadingOptions && <InlineLoader />}</div>
           {options.map((option, index) => (
             <li
               className="option"

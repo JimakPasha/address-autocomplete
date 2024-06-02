@@ -1,5 +1,10 @@
 import React from "react";
-import { Snackbar, AutocompleteInput } from "./components";
+import {
+  Checkbox,
+  AutocompleteInput,
+  Snackbar,
+  ScreenLoader,
+} from "./components";
 import { useGetFormData } from "./hooks";
 import { generatePattern } from "./utils";
 import { FieldsForm } from "./constants";
@@ -7,11 +12,15 @@ import "./App.css";
 
 export const App = () => {
   const {
+    isOnMask,
     inputValues,
     autocompleteData,
     showAutocomplete,
     isValidInput,
     snackbar,
+    isLoadingSubmit,
+    isLoadingAutocompleteData,
+    handleMaskChange,
     handleInputChange,
     handleInputFocus,
     handleInputBlur,
@@ -23,17 +32,23 @@ export const App = () => {
   return (
     <div className="App">
       <form onSubmit={handleFormSubmit}>
+        <Checkbox
+          name="letterCaseMask"
+          label="Letter Case Mask"
+          checked={isOnMask}
+          description={`By checking this checkbox, you don't need to worry about the case of the letters you enter. This feature helps automatically correct the text you enter to quickly and better find options in the dropdowns.`}
+          onChange={handleMaskChange}
+        />
+
         <AutocompleteInput
           name={FieldsForm.Street}
           label="Street"
           value={inputValues.street}
           isValid={isValidInput.street}
           pattern={generatePattern(autocompleteData.street)}
-          isRenderOptions={
-            autocompleteData.street.length > 0 &&
-            showAutocomplete[FieldsForm.Street]
-          }
+          isRenderOptions={showAutocomplete[FieldsForm.Street]}
           options={autocompleteData.street}
+          isLoadingOptions={isLoadingAutocompleteData}
           onChange={handleInputChange}
           onFocus={handleInputFocus}
           onBlur={handleInputBlur}
@@ -46,11 +61,9 @@ export const App = () => {
           value={inputValues.state}
           isValid={isValidInput.state}
           pattern={generatePattern(autocompleteData.state)}
-          isRenderOptions={
-            autocompleteData.state.length > 0 &&
-            showAutocomplete[FieldsForm.State]
-          }
+          isRenderOptions={showAutocomplete[FieldsForm.State]}
           options={autocompleteData.state}
+          isLoadingOptions={isLoadingAutocompleteData}
           onChange={handleInputChange}
           onFocus={handleInputFocus}
           onBlur={handleInputBlur}
@@ -63,11 +76,9 @@ export const App = () => {
           value={inputValues.city}
           isValid={isValidInput.city}
           pattern={generatePattern(autocompleteData.city)}
-          isRenderOptions={
-            autocompleteData.city.length > 0 &&
-            showAutocomplete[FieldsForm.City]
-          }
+          isRenderOptions={showAutocomplete[FieldsForm.City]}
           options={autocompleteData.city}
+          isLoadingOptions={isLoadingAutocompleteData}
           onChange={handleInputChange}
           onFocus={handleInputFocus}
           onBlur={handleInputBlur}
@@ -80,11 +91,9 @@ export const App = () => {
           value={inputValues.postalCode}
           isValid={isValidInput.postalCode}
           pattern={generatePattern(autocompleteData.postalCode)}
-          isRenderOptions={
-            autocompleteData.postalCode.length > 0 &&
-            showAutocomplete[FieldsForm.PostalCode]
-          }
+          isRenderOptions={showAutocomplete[FieldsForm.PostalCode]}
           options={autocompleteData.postalCode}
+          isLoadingOptions={isLoadingAutocompleteData}
           onChange={handleInputChange}
           onFocus={handleInputFocus}
           onBlur={handleInputBlur}
@@ -97,22 +106,23 @@ export const App = () => {
           value={inputValues.country}
           isValid={isValidInput.country}
           pattern={generatePattern(autocompleteData.country)}
-          isRenderOptions={
-            autocompleteData.country.length > 0 &&
-            showAutocomplete[FieldsForm.Country]
-          }
+          isRenderOptions={showAutocomplete[FieldsForm.Country]}
           options={autocompleteData.country}
+          isLoadingOptions={isLoadingAutocompleteData}
           onChange={handleInputChange}
           onFocus={handleInputFocus}
           onBlur={handleInputBlur}
           onOptionSelect={handleOptionSelect}
         />
 
-        <button type="submit">Continue</button>
-        <button type="button" onClick={handleResetForm}>
-          Reset Form
-        </button>
+        <div className="actions">
+          <button type="submit">Continue</button>
+          <button type="button" onClick={handleResetForm}>
+            Reset Form
+          </button>
+        </div>
       </form>
+
       {snackbar.isOpen && (
         <Snackbar
           message={snackbar.message}
@@ -120,6 +130,8 @@ export const App = () => {
           success={snackbar.isSuccess}
         />
       )}
+
+      {isLoadingSubmit && <ScreenLoader />}
     </div>
   );
 };

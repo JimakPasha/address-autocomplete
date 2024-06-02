@@ -24,6 +24,7 @@ import {
 export const useGetFormData = () => {
   const snackbar = useSnackbar();
 
+  const [isOnMask, setIsOnMask] = useState(true);
   const [inputValues, setInputValues] = useState(initialInputValues);
   const [autocompleteData, setAutocompleteData] = useState(
     initialAutocompleteData
@@ -32,6 +33,8 @@ export const useGetFormData = () => {
     initialShowAutocomplete
   );
   const [isValidInput, setIsValidInput] = useState(initialValidInput);
+  const [isLoadingSubmit, setIsLoadingSubmit] = useState(false);
+  const [isLoadingAutocompleteData, setIsLoadingAutocompleteData] = useState(false);
 
   const isAllFieldsFill = useMemo(
     () =>
@@ -47,6 +50,7 @@ export const useGetFormData = () => {
   const getAutocompleteData = async (
     inputValues: Record<FieldsForm, string>
   ) => {
+    setIsLoadingAutocompleteData(true);
     const url = buildAutocompleteUrl(inputValues);
 
     try {
@@ -79,6 +83,7 @@ export const useGetFormData = () => {
       snackbar.open(err.message, false);
       console.error(err.message);
     }
+    setIsLoadingAutocompleteData(false);
   };
 
   const debouncedGetAutocompleteData = useCallback(
@@ -107,19 +112,26 @@ export const useGetFormData = () => {
     }
   }, [autocompleteData]);
 
+  const handleMaskChange = (e: ChangeEvent<HTMLInputElement>) => setIsOnMask(e.target.checked);
+
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
-    if (name === FieldsForm.PostalCode && NON_DIGIT_REGEX.test(value)) return;
+    if (name === FieldsForm.PostalCode && NON_DIGIT_REGEX.test(value)) {
+      return;
+    }
 
-    const capitalizedValue = value
-      .toLowerCase()
-      .replace(CAPITALIZE_FIRST_LETTER_REGEX, (char) => char.toUpperCase());
+    let updatedValue = value;
 
-    const updatedInputValues = { ...inputValues, [name]: capitalizedValue };
+    if (isOnMask) {
+      updatedValue = value
+        .toLowerCase()
+        .replace(CAPITALIZE_FIRST_LETTER_REGEX, (char) => char.toUpperCase());
+    }
 
-    const isValid =
-      autocompleteData[name as FieldsForm].includes(capitalizedValue);
+    const updatedInputValues = { ...inputValues, [name]: updatedValue };
+
+    const isValid = autocompleteData[name as FieldsForm].includes(updatedValue);
 
     setIsValidInput((prevState) => ({
       ...prevState,
@@ -181,6 +193,8 @@ export const useGetFormData = () => {
       return snackbar.open(MESSAGES.FORM_FILL_OUT_ALL_FIELDS, false);
     }
 
+    setIsLoadingSubmit(true);
+
     try {
       const { data } = await axios.post("http://localhost:8080/api/address", {
         address: inputValues,
@@ -196,14 +210,19 @@ export const useGetFormData = () => {
         false
       );
     }
+    setIsLoadingSubmit(false);
   };
 
   return {
+    isOnMask,
     inputValues,
     autocompleteData,
     showAutocomplete,
     isValidInput,
     snackbar,
+    isLoadingSubmit,
+    isLoadingAutocompleteData,
+    handleMaskChange,
     handleInputChange,
     handleInputFocus,
     handleInputBlur,
