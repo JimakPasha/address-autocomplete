@@ -1,0 +1,54 @@
+.snackbar-container {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 10;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 344px;
+
+  color: #fff;
+  border-radius: 4px;
+  box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2),
+      0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+
+  animation: 3000ms ease-out forwards slide-up;
+}
+  
+.success {
+  background-color: hsl(130, 50%, 45%);
+}
+
+.success.snackbar-message {
+  color: hsl(130, 10%, 10%);
+}
+
+.fail {
+  background-color: hsl(1, 50%, 55%);
+}
+
+.fail.snackbar-message {
+  color: hsl(1, 10%, 10%);
+}
+
+.snackbar-message {
+  display: inline-block;
+  width: 100%;
+  padding: 1rem;
+  margin: 0;
+
+  line-height: 1.5rem;
+  font-size: 1.2rem;
+}
+
+.snackbar-close {
+  display: inline-block;
+  padding: 0 16px;
+
+  font-size: 1rem;
+  font-weight: bold;
+  
+  cursor: pointer;
+}

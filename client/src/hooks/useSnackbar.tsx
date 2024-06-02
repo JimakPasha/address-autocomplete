@@ -1,12 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-const useSnackbar = () => {
+export const useSnackbar = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [message, setMessage] = useState<string>('');
+  const [message, setMessage] = useState<string>("");
   const [isSuccess, setIsSuccess] = useState<boolean>(true);
 
   const CLOSE_MILLISECONDS = 3000;
-  let timer: ReturnType<typeof setTimeout>
+  let timer: ReturnType<typeof setTimeout>;
 
   /**
    * Automatically close the snackbar after the given number of seconds
@@ -25,7 +25,7 @@ const useSnackbar = () => {
   }, [isOpen]);
 
   const close = () => {
-    setMessage('');
+    setMessage("");
     setIsOpen(false);
   };
 
@@ -33,7 +33,7 @@ const useSnackbar = () => {
    * Given a message to display and a boolean representing if the message
    * is a success message or an error message, display the snackbar with
    * the given message and the appropriate color.
-   * 
+   *
    * @param {string} message - the message to display
    * @param {boolean} success - true if it's a success message, else false
    */
@@ -45,5 +45,3 @@ const useSnackbar = () => {
 
   return { isOpen, message, isSuccess, open, close };
 };
-
-export default useSnackbar;

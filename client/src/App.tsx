@@ -1,90 +1,117 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import Snackbar from './components/Snackbar';
-import useSnackbar from './hooks/useSnackbar';
-import { buildAutocompleteUrl } from './utils/helpers';
-import './App.css';
+import React from "react";
+import { Snackbar, AutocompleteInput } from "./components";
+import { useGetFormData } from "./hooks";
+import { generatePattern } from "./utils";
+import { FieldsForm } from "./constants";
+import "./App.css";
 
-interface InputValues {
-  street: string;
-  city: string;
-  state: string;
-  postalCode: string;
-  country: string;
-}
-
-function App() {
-  const [autocompleteData, setAutocompleteData] = useState<any>({});
-  const [inputValues, setInputValues] = useState<InputValues>({
-    street: '',
-    city: '',
-    state: '',
-    postalCode: '',
-    country: ''
-  });
-
-  const snackbar = useSnackbar();
-
-  const getAutocompleteData = async (inputValues: InputValues) => {
-    const url = buildAutocompleteUrl(inputValues);
-
-    try {
-      const { data } = await axios.get(url);
-
-      const initialData = {
-        street: [],
-        city: [],
-        state: [],
-        postalCode: [],
-        country: []
-      };
-
-      const organizedData = data.addresses.reduce((acc: any, address: any) => {
-        acc.street.push(address.street);
-        acc.city.push(address.city);
-        acc.state.push(address.state);
-        acc.postalCode.push(address.postalCode);
-        acc.country.push(address.country);
-        return acc;
-      }, initialData);
-
-      if (data.addresses.length) {
-        setAutocompleteData(organizedData);
-      }
-    } catch (err: any) {
-      snackbar.open(err.message, false);
-      console.error(err.message);
-    }
-  };
-
-  const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setInputValues((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    try {
-      const { data } = await axios.post('http://localhost:8080/api/address', {
-        address: inputValues
-      });
-
-      if (data.ok) {
-        snackbar.open('Data sent successfully!', true);
-      }
-    } catch (err: any) {
-      snackbar.open(err.response?.data?.message || 'Error occurred', false);
-    }
-  };
+export const App = () => {
+  const {
+    inputValues,
+    autocompleteData,
+    showAutocomplete,
+    isValidInput,
+    snackbar,
+    handleInputChange,
+    handleInputFocus,
+    handleInputBlur,
+    handleOptionSelect,
+    handleResetForm,
+    handleFormSubmit,
+  } = useGetFormData();
 
   return (
     <div className="App">
       <form onSubmit={handleFormSubmit}>
+        <AutocompleteInput
+          name={FieldsForm.Street}
+          label="Street"
+          value={inputValues.street}
+          isValid={isValidInput.street}
+          pattern={generatePattern(autocompleteData.street)}
+          isRenderOptions={
+            autocompleteData.street.length > 0 &&
+            showAutocomplete[FieldsForm.Street]
+          }
+          options={autocompleteData.street}
+          onChange={handleInputChange}
+          onFocus={handleInputFocus}
+          onBlur={handleInputBlur}
+          onOptionSelect={handleOptionSelect}
+        />
+
+        <AutocompleteInput
+          name={FieldsForm.State}
+          label="State"
+          value={inputValues.state}
+          isValid={isValidInput.state}
+          pattern={generatePattern(autocompleteData.state)}
+          isRenderOptions={
+            autocompleteData.state.length > 0 &&
+            showAutocomplete[FieldsForm.State]
+          }
+          options={autocompleteData.state}
+          onChange={handleInputChange}
+          onFocus={handleInputFocus}
+          onBlur={handleInputBlur}
+          onOptionSelect={handleOptionSelect}
+        />
+
+        <AutocompleteInput
+          name={FieldsForm.City}
+          label="City"
+          value={inputValues.city}
+          isValid={isValidInput.city}
+          pattern={generatePattern(autocompleteData.city)}
+          isRenderOptions={
+            autocompleteData.city.length > 0 &&
+            showAutocomplete[FieldsForm.City]
+          }
+          options={autocompleteData.city}
+          onChange={handleInputChange}
+          onFocus={handleInputFocus}
+          onBlur={handleInputBlur}
+          onOptionSelect={handleOptionSelect}
+        />
+
+        <AutocompleteInput
+          name={FieldsForm.PostalCode}
+          label="Postal Code"
+          value={inputValues.postalCode}
+          isValid={isValidInput.postalCode}
+          pattern={generatePattern(autocompleteData.postalCode)}
+          isRenderOptions={
+            autocompleteData.postalCode.length > 0 &&
+            showAutocomplete[FieldsForm.PostalCode]
+          }
+          options={autocompleteData.postalCode}
+          onChange={handleInputChange}
+          onFocus={handleInputFocus}
+          onBlur={handleInputBlur}
+          onOptionSelect={handleOptionSelect}
+        />
+
+        <AutocompleteInput
+          name={FieldsForm.Country}
+          label="Country"
+          value={inputValues.country}
+          isValid={isValidInput.country}
+          pattern={generatePattern(autocompleteData.country)}
+          isRenderOptions={
+            autocompleteData.country.length > 0 &&
+            showAutocomplete[FieldsForm.Country]
+          }
+          options={autocompleteData.country}
+          onChange={handleInputChange}
+          onFocus={handleInputFocus}
+          onBlur={handleInputBlur}
+          onOptionSelect={handleOptionSelect}
+        />
+
         <button type="submit">Continue</button>
+        <button type="button" onClick={handleResetForm}>
+          Reset Form
+        </button>
       </form>
       {snackbar.isOpen && (
         <Snackbar
@@ -95,6 +122,4 @@ function App() {
       )}
     </div>
   );
-}
-
-export default App;
+};

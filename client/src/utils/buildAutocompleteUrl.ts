@@ -1,7 +1,7 @@
 /**
  * Given an address object, produce the URL string to be called for
  * the autocomplete API.
- * 
+ *
  * @param {Address} address - the address object
  * @property {string} [address.street]
  * @property {string} [address.city]
@@ -18,9 +18,9 @@ interface Address {
   country?: string;
 }
 
-const buildAutocompleteUrl = (address: Address): string => {
+export const buildAutocompleteUrl = (address: Address): string => {
   const { street, city, state, postalCode, country } = address;
-  let query = '';
+  let query = "";
 
   if (street) {
     query += `street=${street}&`;
@@ -44,5 +44,3 @@ const buildAutocompleteUrl = (address: Address): string => {
 
   return `http://localhost:8080/api/address/autocomplete?${encodeURI(query)}`;
 };
-
-export { buildAutocompleteUrl };
